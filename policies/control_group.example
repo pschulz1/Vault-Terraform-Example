@@ -1,0 +1,19 @@
+# Create a Control Group for approvals for CRUD operations on policies
+path "/sys/policies*" {
+    capabilities = ["create", "update"]
+    control_group = {
+        ttl = "4h"
+        factor "tech leads" {
+            identity {
+                group_names = ["managers", "leads"]
+                approvals = 2
+            }
+        }
+        factor "CISO" {
+            identity {
+                group_names = ["infosec"]
+                approvals = 1
+            }
+        }
+    }
+}
